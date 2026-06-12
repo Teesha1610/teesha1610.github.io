@@ -11,466 +11,76 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-
-  body {
-    background: #0d0d0f;
-    color: #e2e8f0;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    line-height: 1.7;
-  }
-
+  body { background: #0d0d0f; color: #e2e8f0; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
   .mono { font-family: 'JetBrains Mono', monospace; }
-
-  /* NAV */
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2.5rem;
-    border-bottom: 1px solid #1e2030;
-    position: sticky;
-    top: 0;
-    background: rgba(13,13,15,0.96);
-    backdrop-filter: blur(10px);
-    z-index: 100;
-  }
-
-  .nav-logo {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: #7c6dfa;
-    text-decoration: none;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: #64748b;
-    text-decoration: none;
-    font-size: 13px;
-    font-family: 'JetBrains Mono', monospace;
-    transition: color 0.2s;
-  }
-
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2.5rem; border-bottom: 1px solid #1e2030; position: sticky; top: 0; background: rgba(13,13,15,0.96); backdrop-filter: blur(10px); z-index: 100; }
+  .nav-logo { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #7c6dfa; text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: #64748b; text-decoration: none; font-size: 13px; font-family: 'JetBrains Mono', monospace; transition: color 0.2s; }
   .nav-links a:hover { color: #7c6dfa; }
-
-  /* HERO */
-  .hero {
-    padding: 6rem 2.5rem 5rem;
-    text-align: center;
-    border-bottom: 1px solid #1e2030;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(124,109,250,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124,109,250,0.06) 1px, transparent 1px);
-    background-size: 44px 44px;
-    pointer-events: none;
-  }
-
+  .hero { padding: 6rem 2.5rem 5rem; text-align: center; border-bottom: 1px solid #1e2030; position: relative; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(124,109,250,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(124,109,250,0.06) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
   .hero-content { position: relative; z-index: 1; }
-
-  .hero-tag {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: #7c6dfa;
-    border: 1px solid rgba(124,109,250,0.3);
-    background: rgba(124,109,250,0.08);
-    padding: 5px 14px;
-    border-radius: 20px;
-    margin-bottom: 1.75rem;
-    letter-spacing: 0.5px;
-  }
-
-  .hero h1 {
-    font-size: 52px;
-    font-weight: 600;
-    color: #f1f5f9;
-    line-height: 1.15;
-    margin-bottom: 1.25rem;
-    letter-spacing: -1px;
-  }
-
+  .hero-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7c6dfa; border: 1px solid rgba(124,109,250,0.3); background: rgba(124,109,250,0.08); padding: 5px 14px; border-radius: 20px; margin-bottom: 1.75rem; }
+  .hero h1 { font-size: 52px; font-weight: 600; color: #f1f5f9; line-height: 1.15; margin-bottom: 1.25rem; letter-spacing: -1px; }
   .hero h1 span { color: #7c6dfa; }
-
-  .hero-sub {
-    font-size: 16px;
-    color: #64748b;
-    max-width: 500px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.75;
-  }
-
-  .hero-btns {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    background: #7c6dfa;
-    color: #fff;
-    border: none;
-    padding: 11px 28px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.15s;
-    display: inline-block;
-  }
+  .hero-sub { font-size: 16px; color: #64748b; max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.75; }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: #7c6dfa; color: #fff; border: none; padding: 11px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; transition: background 0.2s, transform 0.15s; display: inline-block; }
   .btn-primary:hover { background: #6c5de8; transform: translateY(-1px); }
-
-  .btn-ghost {
-    background: transparent;
-    color: #94a3b8;
-    border: 1px solid #1e2030;
-    padding: 11px 28px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    text-decoration: none;
-    transition: all 0.2s;
-    display: inline-block;
-  }
+  .btn-ghost { background: transparent; color: #94a3b8; border: 1px solid #1e2030; padding: 11px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; transition: all 0.2s; display: inline-block; }
   .btn-ghost:hover { border-color: #7c6dfa; color: #7c6dfa; }
-
-  /* SECTIONS */
-  .section {
-    padding: 5rem 2.5rem;
-    border-bottom: 1px solid #1e2030;
-    max-width: 900px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .section-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #7c6dfa;
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    margin-bottom: 0.5rem;
-  }
-
-  .section-title {
-    font-size: 30px;
-    font-weight: 600;
-    color: #f1f5f9;
-    margin-bottom: 2.5rem;
-    letter-spacing: -0.5px;
-  }
-
-  /* ABOUT */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 3rem;
-    align-items: start;
-  }
-
-  .about-text {
-    font-size: 15px;
-    color: #94a3b8;
-    line-height: 1.85;
-  }
-
+  .section { padding: 5rem 2.5rem; border-bottom: 1px solid #1e2030; max-width: 900px; margin: 0 auto; width: 100%; }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7c6dfa; text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 0.5rem; }
+  .section-title { font-size: 30px; font-weight: 600; color: #f1f5f9; margin-bottom: 2.5rem; letter-spacing: -0.5px; }
+  .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: start; }
+  .about-text { font-size: 15px; color: #94a3b8; line-height: 1.85; }
   .about-text p + p { margin-top: 1rem; }
-
-  .about-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .stat-card {
-    background: #13131a;
-    border: 1px solid #1e2030;
-    border-radius: 10px;
-    padding: 1.1rem;
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 26px;
-    font-weight: 500;
-    color: #7c6dfa;
-    display: block;
-  }
-
-  .stat-label {
-    font-size: 11px;
-    color: #475569;
-    margin-top: 5px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* PROJECTS */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-
-  .project-card {
-    background: #13131a;
-    border: 1px solid #1e2030;
-    border-radius: 12px;
-    padding: 1.75rem;
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #7c6dfa, #a78bfa);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat-card { background: #13131a; border: 1px solid #1e2030; border-radius: 10px; padding: 1.1rem; text-align: center; }
+  .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 500; color: #7c6dfa; display: block; }
+  .stat-label { font-size: 11px; color: #475569; margin-top: 5px; font-family: 'JetBrains Mono', monospace; }
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .project-card { background: #13131a; border: 1px solid #1e2030; border-radius: 12px; padding: 1.75rem; transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #7c6dfa, #a78bfa); opacity: 0; transition: opacity 0.2s; }
   .project-card:hover { border-color: rgba(124,109,250,0.4); transform: translateY(-2px); }
   .project-card:hover::before { opacity: 1; }
-
-  .project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.75rem;
-    gap: 1rem;
-  }
-
-  .project-name {
-    font-size: 17px;
-    font-weight: 500;
-    color: #f1f5f9;
-  }
-
-  .project-year {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #475569;
-    background: #1e2030;
-    padding: 3px 9px;
-    border-radius: 4px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .project-desc {
-    font-size: 14px;
-    color: #64748b;
-    line-height: 1.75;
-    margin-bottom: 1.25rem;
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    background: rgba(124,109,250,0.08);
-    color: #7c6dfa;
-    border: 1px solid rgba(124,109,250,0.2);
-    padding: 3px 9px;
-    border-radius: 4px;
-  }
-
-  /* SKILLS */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-  }
-
-  .skill-group {
-    background: #13131a;
-    border: 1px solid #1e2030;
-    border-radius: 10px;
-    padding: 1.4rem;
-  }
-
-  .skill-group-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #7c6dfa;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #1e2030;
-  }
-
-  .skill-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 9px;
-    font-size: 13px;
-    color: #94a3b8;
-  }
-
+  .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 1rem; }
+  .project-name { font-size: 16px; font-weight: 500; color: #f1f5f9; }
+  .project-year { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #475569; background: #1e2030; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
+  .project-desc { font-size: 13px; color: #64748b; line-height: 1.75; margin-bottom: 1.25rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+  .tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: rgba(124,109,250,0.08); color: #7c6dfa; border: 1px solid rgba(124,109,250,0.2); padding: 3px 9px; border-radius: 4px; }
+  .project-link { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #475569; text-decoration: none; transition: color 0.2s; }
+  .project-link:hover { color: #7c6dfa; }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .skill-group { background: #13131a; border: 1px solid #1e2030; border-radius: 10px; padding: 1.4rem; }
+  .skill-group-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7c6dfa; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #1e2030; }
+  .skill-item { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; font-size: 13px; color: #94a3b8; }
   .skill-item:last-child { margin-bottom: 0; }
-
-  .skill-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #7c6dfa;
-    flex-shrink: 0;
-  }
-
-  /* CONTACT */
-  .contact-links {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 1.75rem;
-    flex-wrap: wrap;
-  }
-
-  .contact-chip {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    background: #13131a;
-    border: 1px solid #1e2030;
-    border-radius: 8px;
-    padding: 9px 15px;
-    font-size: 13px;
-    color: #94a3b8;
-    text-decoration: none;
-    transition: border-color 0.2s, color 0.2s;
-  }
+  .skill-dot { width: 5px; height: 5px; border-radius: 50%; background: #7c6dfa; flex-shrink: 0; }
+  .contact-links { display: flex; gap: 10px; margin-bottom: 1.75rem; flex-wrap: wrap; }
+  .contact-chip { display: flex; align-items: center; gap: 7px; background: #13131a; border: 1px solid #1e2030; border-radius: 8px; padding: 9px 15px; font-size: 13px; color: #94a3b8; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
   .contact-chip:hover { border-color: #7c6dfa; color: #7c6dfa; }
   .contact-chip i { font-size: 16px; }
-
-  .contact-form {
-    background: #13131a;
-    border: 1px solid #1e2030;
-    border-radius: 12px;
-    padding: 2rem;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    margin-bottom: 1rem;
-  }
-
-  .form-group:last-of-type { margin-bottom: 0; }
-
-  .form-label {
-    font-size: 11px;
-    color: #475569;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .form-input, .form-textarea {
-    background: #0d0d0f;
-    border: 1px solid #1e2030;
-    border-radius: 8px;
-    padding: 11px 14px;
-    color: #e2e8f0;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    transition: border-color 0.2s;
-    width: 100%;
-    outline: none;
-  }
-
+  .contact-form { background: #13131a; border: 1px solid #1e2030; border-radius: 12px; padding: 2rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 1rem; }
+  .form-label { font-size: 11px; color: #475569; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; text-transform: uppercase; }
+  .form-input, .form-textarea { background: #0d0d0f; border: 1px solid #1e2030; border-radius: 8px; padding: 11px 14px; color: #e2e8f0; font-size: 14px; font-family: 'Inter', sans-serif; transition: border-color 0.2s; width: 100%; outline: none; }
   .form-input::placeholder, .form-textarea::placeholder { color: #334155; }
   .form-input:focus, .form-textarea:focus { border-color: #7c6dfa; }
   .form-textarea { resize: vertical; min-height: 130px; }
-
-  .form-submit {
-    background: #7c6dfa;
-    color: #fff;
-    border: none;
-    padding: 13px 28px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    transition: background 0.2s, transform 0.15s;
-    width: 100%;
-    margin-top: 1.25rem;
-    letter-spacing: 0.3px;
-  }
+  .form-submit { background: #7c6dfa; color: #fff; border: none; padding: 13px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.2s, transform 0.15s; width: 100%; margin-top: 1.25rem; }
   .form-submit:hover { background: #6c5de8; transform: translateY(-1px); }
-
-  .success-msg {
-    display: none;
-    background: rgba(74,222,128,0.08);
-    border: 1px solid rgba(74,222,128,0.25);
-    color: #4ade80;
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 13px;
-    margin-top: 1rem;
-    text-align: center;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 2.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #1e2030;
-    border-top: 1px solid #1e2030;
-  }
-
-  /* RESPONSIVE */
+  .success-msg { display: none; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25); color: #4ade80; border-radius: 8px; padding: 12px 16px; font-size: 13px; margin-top: 1rem; text-align: center; font-family: 'JetBrains Mono', monospace; }
+  footer { text-align: center; padding: 2.5rem; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #1e2030; border-top: 1px solid #1e2030; }
   @media (max-width: 680px) {
-    nav { padding: 1rem 1.25rem; }
-    .nav-links { gap: 1rem; }
-    .hero { padding: 4rem 1.25rem 3rem; }
-    .hero h1 { font-size: 34px; }
-    .section { padding: 3rem 1.25rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .skills-grid { grid-template-columns: 1fr; }
-    .form-row { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.25rem; } .nav-links { gap: 1rem; } .hero { padding: 4rem 1.25rem 3rem; } .hero h1 { font-size: 34px; } .section { padding: 3rem 1.25rem; } .about-grid { grid-template-columns: 1fr; gap: 2rem; } .projects-grid { grid-template-columns: 1fr; } .skills-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
-
 <nav>
   <a class="nav-logo mono" href="#">teesha.mehta</a>
   <ul class="nav-links">
@@ -480,111 +90,78 @@
     <li><a href="#contact">contact</a></li>
   </ul>
 </nav>
-
-<!-- HERO -->
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="hero-content">
     <div class="hero-tag">// available for opportunities</div>
     <h1>Hi, I'm <span>Teesha Mehta</span></h1>
-    <p class="hero-sub">Computer Science student & software developer building full-stack applications, AI-powered tools, and scalable backend systems.</p>
+    <p class="hero-sub">Computer Science student building full-stack applications, AI-powered tools, and scalable backend systems. 6 projects live on GitHub.</p>
     <div class="hero-btns">
       <a href="#projects" class="btn-primary">View my work</a>
       <a href="#contact" class="btn-ghost">Get in touch</a>
     </div>
   </div>
 </section>
-
-<!-- ABOUT -->
 <section class="section" id="about">
   <p class="section-label">// 01. about</p>
   <h2 class="section-title">Who I am</h2>
   <div class="about-grid">
     <div>
       <div class="about-text">
-        <p>I'm a Computer Science student at CUNY Queens College (B.S. expected Dec 2026), passionate about building software that solves real problems. I specialize in backend systems, API design, and AI integrations — with a growing love for full-stack development.</p>
-        <p>I've independently built projects ranging from a hotel booking platform to an AI-powered chatbot, and I'm always looking for new challenges that push me to learn and grow. I'm looking for opportunities where I can contribute, collaborate, and continue building.</p>
+        <p>I'm a Computer Science student at CUNY Queens College (B.S. expected Dec 2026), passionate about building software that solves real problems. I specialize in full-stack development, AI integrations, and backend systems.</p>
+        <p>I've independently shipped 6 projects ranging from a hotel booking platform to local AI chatbots and data dashboards. Always learning, always building. Looking for opportunities where I can contribute, grow, and make an impact.</p>
       </div>
     </div>
     <div class="about-stats">
-      <div class="stat-card">
-        <span class="stat-num">3+</span>
-        <div class="stat-label">Projects shipped</div>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">8+</span>
-        <div class="stat-label">Technologies</div>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">2026</span>
-        <div class="stat-label">Graduating</div>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">NYC</span>
-        <div class="stat-label">Based in</div>
-      </div>
+      <div class="stat-card"><span class="stat-num">6</span><div class="stat-label">Projects shipped</div></div>
+      <div class="stat-card"><span class="stat-num">10+</span><div class="stat-label">Technologies</div></div>
+      <div class="stat-card"><span class="stat-num">2026</span><div class="stat-label">Graduating</div></div>
+      <div class="stat-card"><span class="stat-num">NYC</span><div class="stat-label">Based in</div></div>
     </div>
   </div>
 </section>
-
-<!-- PROJECTS -->
 <section class="section" id="projects">
   <p class="section-label">// 02. projects</p>
   <h2 class="section-title">Things I've built</h2>
   <div class="projects-grid">
-
     <div class="project-card">
-      <div class="project-header">
-        <span class="project-name">Staycation Booking Platform</span>
-        <span class="project-year">2025</span>
-      </div>
-      <p class="project-desc">A full-stack hotel booking platform where users can host properties, book stays, and leave reviews. Features secure user authentication, session management, availability tracking, and interactive Leaflet.js maps for location-based browsing.</p>
-      <div class="project-tags">
-        <span class="tag">Node.js</span>
-        <span class="tag">Express.js</span>
-        <span class="tag">MongoDB</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">Leaflet.js</span>
-        <span class="tag">REST API</span>
-        <span class="tag">EJS</span>
-      </div>
+      <div class="project-header"><span class="project-name">AI Resume Analyzer</span><span class="project-year">2025</span></div>
+      <p class="project-desc">Upload a resume and job description to get an AI-powered match score, keyword gap analysis, and improvement suggestions. Built with free local AI tools, no paid APIs.</p>
+      <div class="project-tags"><span class="tag">Python</span><span class="tag">Flask</span><span class="tag">HuggingFace</span><span class="tag">pdfplumber</span><span class="tag">NLP</span></div>
+      <a class="project-link" href="https://github.com/Teesha1610/resume-analyzer-ai" target="_blank">github.com/Teesha1610/resume-analyzer-ai →</a>
     </div>
-
     <div class="project-card">
-      <div class="project-header">
-        <span class="project-name">AI Chatbot Assistant</span>
-        <span class="project-year">2025</span>
-      </div>
-      <p class="project-desc">A Python-based AI chatbot leveraging GPT models via the OpenAI API for real-time query handling. Applies NLP techniques with NLTK and spaCy for intent recognition and text processing, deployed through a Flask web interface.</p>
-      <div class="project-tags">
-        <span class="tag">Python</span>
-        <span class="tag">OpenAI API</span>
-        <span class="tag">Flask</span>
-        <span class="tag">NLTK</span>
-        <span class="tag">spaCy</span>
-        <span class="tag">NLP</span>
-      </div>
+      <div class="project-header"><span class="project-name">Local AI Chatbot</span><span class="project-year">2025</span></div>
+      <p class="project-desc">A fully local AI chat app powered by Ollama running Llama 3 on-device. No API keys, no internet required. Clean React interface with real-time streaming responses.</p>
+      <div class="project-tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Ollama</span><span class="tag">Llama 3</span><span class="tag">TypeScript</span></div>
+      <a class="project-link" href="https://github.com/Teesha1610/local-ai-chatbot" target="_blank">github.com/Teesha1610/local-ai-chatbot →</a>
     </div>
-
     <div class="project-card">
-      <div class="project-header">
-        <span class="project-name">Library Management System</span>
-        <span class="project-year">2025</span>
-      </div>
-      <p class="project-desc">A backend system for managing library books, users, and borrowing records with full CRUD functionality. Features role-based access control, secure authentication, reservation tracking, and a MongoDB-backed database schema.</p>
-      <div class="project-tags">
-        <span class="tag">JavaScript</span>
-        <span class="tag">MongoDB</span>
-        <span class="tag">REST API</span>
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-      </div>
+      <div class="project-header"><span class="project-name">GitHub Analytics Dashboard</span><span class="project-year">2025</span></div>
+      <p class="project-desc">Enter any GitHub username to visualize their coding activity, top languages, commit streaks, and repo stats in a beautiful interactive dashboard.</p>
+      <div class="project-tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">GitHub API</span><span class="tag">Chart.js</span><span class="tag">CSS</span></div>
+      <a class="project-link" href="https://github.com/Teesha1610/github-analytics-dashboard" target="_blank">github.com/Teesha1610/github-analytics-dashboard →</a>
     </div>
-
+    <div class="project-card">
+      <div class="project-header"><span class="project-name">Staycation Booking Platform</span><span class="project-year">2025</span></div>
+      <p class="project-desc">A full-stack hotel booking platform where users can host properties, book stays, and leave reviews. Features secure authentication, availability tracking, and interactive Leaflet.js maps.</p>
+      <div class="project-tags"><span class="tag">Node.js</span><span class="tag">Express.js</span><span class="tag">MongoDB</span><span class="tag">React.js</span><span class="tag">REST API</span></div>
+      <a class="project-link" href="https://github.com/Teesha1610" target="_blank">github.com/Teesha1610 →</a>
+    </div>
+    <div class="project-card">
+      <div class="project-header"><span class="project-name">AI Chatbot Assistant</span><span class="project-year">2025</span></div>
+      <p class="project-desc">A Python-based AI chatbot using GPT models via the OpenAI API. Applies NLP techniques with NLTK and spaCy for intent recognition, deployed through a Flask web interface.</p>
+      <div class="project-tags"><span class="tag">Python</span><span class="tag">OpenAI API</span><span class="tag">Flask</span><span class="tag">NLTK</span><span class="tag">spaCy</span></div>
+      <a class="project-link" href="https://github.com/Teesha1610" target="_blank">github.com/Teesha1610 →</a>
+    </div>
+    <div class="project-card">
+      <div class="project-header"><span class="project-name">Library Management System</span><span class="project-year">2025</span></div>
+      <p class="project-desc">A backend system for managing library books, users, and borrowing records. Features role-based access control, secure authentication, reservation tracking, and MongoDB persistence.</p>
+      <div class="project-tags"><span class="tag">JavaScript</span><span class="tag">MongoDB</span><span class="tag">REST API</span><span class="tag">HTML</span><span class="tag">CSS</span></div>
+      <a class="project-link" href="https://github.com/Teesha1610" target="_blank">github.com/Teesha1610 →</a>
+    </div>
   </div>
 </section>
-
-<!-- SKILLS -->
 <section class="section" id="skills">
   <p class="section-label">// 03. skills</p>
   <h2 class="section-title">What I work with</h2>
@@ -592,97 +169,70 @@
     <div class="skill-group">
       <div class="skill-group-title">Languages</div>
       <div class="skill-item"><span class="skill-dot"></span>Python</div>
-      <div class="skill-item"><span class="skill-dot"></span>JavaScript</div>
-      <div class="skill-item"><span class="skill-dot"></span>Java</div>
+      <div class="skill-item"><span class="skill-dot"></span>JavaScript & TypeScript</div>
+      <div class="skill-item"><span class="skill-dot"></span>Java & C++</div>
       <div class="skill-item"><span class="skill-dot"></span>HTML & CSS</div>
-      <div class="skill-item"><span class="skill-dot"></span>PHP</div>
-      <div class="skill-item"><span class="skill-dot"></span>C++ & Rust</div>
+      <div class="skill-item"><span class="skill-dot"></span>PHP & Rust</div>
     </div>
     <div class="skill-group">
       <div class="skill-group-title">Frameworks & Libraries</div>
-      <div class="skill-item"><span class="skill-dot"></span>Node.js & Express.js</div>
       <div class="skill-item"><span class="skill-dot"></span>React.js & Angular</div>
+      <div class="skill-item"><span class="skill-dot"></span>Node.js & Express.js</div>
       <div class="skill-item"><span class="skill-dot"></span>Flask & Spring</div>
-      <div class="skill-item"><span class="skill-dot"></span>NLTK & spaCy</div>
-      <div class="skill-item"><span class="skill-dot"></span>REST APIs</div>
+      <div class="skill-item"><span class="skill-dot"></span>NLTK, spaCy & HuggingFace</div>
+      <div class="skill-item"><span class="skill-dot"></span>REST APIs & LangChain</div>
     </div>
     <div class="skill-group">
-      <div class="skill-group-title">Databases & Cloud</div>
-      <div class="skill-item"><span class="skill-dot"></span>MongoDB</div>
-      <div class="skill-item"><span class="skill-dot"></span>MySQL & SQL</div>
-      <div class="skill-item"><span class="skill-dot"></span>Azure</div>
-      <div class="skill-item"><span class="skill-dot"></span>Linux / Unix</div>
+      <div class="skill-group-title">AI & Data</div>
+      <div class="skill-item"><span class="skill-dot"></span>Ollama & Local LLMs</div>
+      <div class="skill-item"><span class="skill-dot"></span>OpenAI API & GPT models</div>
+      <div class="skill-item"><span class="skill-dot"></span>HuggingFace Transformers</div>
+      <div class="skill-item"><span class="skill-dot"></span>pgvector & Embeddings</div>
+      <div class="skill-item"><span class="skill-dot"></span>NLP Pipelines</div>
     </div>
     <div class="skill-group">
       <div class="skill-group-title">Tools & Practices</div>
       <div class="skill-item"><span class="skill-dot"></span>Git & GitHub</div>
-      <div class="skill-item"><span class="skill-dot"></span>VS Code & IntelliJ</div>
-      <div class="skill-item"><span class="skill-dot"></span>Agile methodology</div>
-      <div class="skill-item"><span class="skill-dot"></span>Technical documentation</div>
+      <div class="skill-item"><span class="skill-dot"></span>Azure & Docker</div>
+      <div class="skill-item"><span class="skill-dot"></span>MongoDB, Postgres & MySQL</div>
+      <div class="skill-item"><span class="skill-dot"></span>Agile & Code Review</div>
+      <div class="skill-item"><span class="skill-dot"></span>Linux / Unix</div>
     </div>
   </div>
 </section>
-
-<!-- CONTACT -->
 <section class="section" id="contact">
   <p class="section-label">// 04. contact</p>
   <h2 class="section-title">Let's connect</h2>
   <div class="contact-links">
-    <a class="contact-chip" href="mailto:teeshamehta1610@gmail.com">
-      <i class="ti ti-mail" aria-hidden="true"></i>teeshamehta1610@gmail.com
-    </a>
-    <a class="contact-chip" href="https://linkedin.com/in/teesha-mehta-9257b6248" target="_blank">
-      <i class="ti ti-brand-linkedin" aria-hidden="true"></i>LinkedIn
-    </a>
-    <span class="contact-chip">
-      <i class="ti ti-phone" aria-hidden="true"></i>+1.585.837.0659
-    </span>
+    <a class="contact-chip" href="mailto:teeshamehta1610@gmail.com"><i class="ti ti-mail"></i>teeshamehta1610@gmail.com</a>
+    <a class="contact-chip" href="https://linkedin.com/in/teesha-mehta-9257b6248" target="_blank"><i class="ti ti-brand-linkedin"></i>LinkedIn</a>
+    <a class="contact-chip" href="https://github.com/Teesha1610" target="_blank"><i class="ti ti-brand-github"></i>GitHub</a>
+    <span class="contact-chip"><i class="ti ti-phone"></i>+1.585.837.0659</span>
   </div>
   <div class="contact-form">
     <div class="form-row">
-      <div class="form-group" style="margin-bottom:0">
-        <label class="form-label" for="fname">Name</label>
-        <input class="form-input" type="text" id="fname" placeholder="Your name" />
-      </div>
-      <div class="form-group" style="margin-bottom:0">
-        <label class="form-label" for="femail">Email</label>
-        <input class="form-input" type="email" id="femail" placeholder="your@email.com" />
-      </div>
+      <div class="form-group" style="margin-bottom:0"><label class="form-label" for="fname">Name</label><input class="form-input" type="text" id="fname" placeholder="Your name" /></div>
+      <div class="form-group" style="margin-bottom:0"><label class="form-label" for="femail">Email</label><input class="form-input" type="email" id="femail" placeholder="your@email.com" /></div>
     </div>
-    <div class="form-group" style="margin-top:1rem">
-      <label class="form-label" for="fsubject">Subject</label>
-      <input class="form-input" type="text" id="fsubject" placeholder="What's this about?" />
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="fmessage">Message</label>
-      <textarea class="form-textarea" id="fmessage" placeholder="Tell me about your project or opportunity..."></textarea>
-    </div>
+    <div class="form-group" style="margin-top:1rem"><label class="form-label" for="fsubject">Subject</label><input class="form-input" type="text" id="fsubject" placeholder="What's this about?" /></div>
+    <div class="form-group"><label class="form-label" for="fmessage">Message</label><textarea class="form-textarea" id="fmessage" placeholder="Tell me about your project or opportunity..."></textarea></div>
     <button class="form-submit" onclick="submitForm()">Send message →</button>
     <div class="success-msg" id="success">✓ Opening your email client with the message pre-filled!</div>
   </div>
 </section>
-
-<footer>
-  built with ♥ by teesha mehta · 2025
-</footer>
-
+<footer>built with ♥ by teesha mehta · 2025 · 6 projects · always building</footer>
 <script>
-  function submitForm() {
-    const name = document.getElementById('fname').value.trim();
-    const email = document.getElementById('femail').value.trim();
-    const subject = document.getElementById('fsubject').value.trim();
-    const message = document.getElementById('fmessage').value.trim();
-    if (!name || !email || !message) {
-      alert('Please fill in your name, email, and message.');
-      return;
-    }
-    const body = 'From: ' + name + ' (' + email + ')\n\n' + message;
-    const mailto = 'mailto:teeshamehta1610@gmail.com'
-      + '?subject=' + encodeURIComponent(subject || 'Portfolio Contact from ' + name)
-      + '&body=' + encodeURIComponent(body);
-    window.location.href = mailto;
-    document.getElementById('success').style.display = 'block';
-  }
+function submitForm() {
+  const name = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const subject = document.getElementById('fsubject').value.trim();
+  const message = document.getElementById('fmessage').value.trim();
+  if (!name || !email || !message) { alert('Please fill in your name, email, and message.'); return; }
+  const body = 'From: ' + name + ' (' + email + ')\n\n' + message;
+  const mailto = 'mailto:teeshamehta1610@gmail.com?subject=' + encodeURIComponent(subject || 'Portfolio Contact from ' + name) + '&body=' + encodeURIComponent(body);
+  window.location.href = mailto;
+  document.getElementById('success').style.display = 'block';
+}
 </script>
 </body>
 </html>
