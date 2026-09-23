@@ -1,238 +1,531 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Teesha Mehta — Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local AI Chatbot</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: #0d0d0f; color: #e2e8f0; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
-  nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2.5rem; border-bottom: 1px solid #1e2030; position: sticky; top: 0; background: rgba(13,13,15,0.96); backdrop-filter: blur(10px); z-index: 100; }
-  .nav-logo { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #7c6dfa; text-decoration: none; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { color: #64748b; text-decoration: none; font-size: 13px; font-family: 'JetBrains Mono', monospace; transition: color 0.2s; }
-  .nav-links a:hover { color: #7c6dfa; }
-  .hero { padding: 6rem 2.5rem 5rem; text-align: center; border-bottom: 1px solid #1e2030; position: relative; overflow: hidden; }
-  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(124,109,250,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(124,109,250,0.06) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
-  .hero-content { position: relative; z-index: 1; }
-  .hero-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7c6dfa; border: 1px solid rgba(124,109,250,0.3); background: rgba(124,109,250,0.08); padding: 5px 14px; border-radius: 20px; margin-bottom: 1.75rem; }
-  .hero h1 { font-size: 52px; font-weight: 600; color: #f1f5f9; line-height: 1.15; margin-bottom: 1.25rem; letter-spacing: -1px; }
-  .hero h1 span { color: #7c6dfa; }
-  .hero-sub { font-size: 16px; color: #64748b; max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.75; }
-  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { background: #7c6dfa; color: #fff; border: none; padding: 11px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; transition: background 0.2s, transform 0.15s; display: inline-block; }
-  .btn-primary:hover { background: #6c5de8; transform: translateY(-1px); }
-  .btn-ghost { background: transparent; color: #94a3b8; border: 1px solid #1e2030; padding: 11px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; transition: all 0.2s; display: inline-block; }
-  .btn-ghost:hover { border-color: #7c6dfa; color: #7c6dfa; }
-  .section { padding: 5rem 2.5rem; border-bottom: 1px solid #1e2030; max-width: 900px; margin: 0 auto; width: 100%; }
-  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7c6dfa; text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 0.5rem; }
-  .section-title { font-size: 30px; font-weight: 600; color: #f1f5f9; margin-bottom: 2.5rem; letter-spacing: -0.5px; }
-  .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: start; }
-  .about-text { font-size: 15px; color: #94a3b8; line-height: 1.85; }
-  .about-text p + p { margin-top: 1rem; }
-  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .stat-card { background: #13131a; border: 1px solid #1e2030; border-radius: 10px; padding: 1.1rem; text-align: center; }
-  .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 500; color: #7c6dfa; display: block; }
-  .stat-label { font-size: 11px; color: #475569; margin-top: 5px; font-family: 'JetBrains Mono', monospace; }
-  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-  .project-card { background: #13131a; border: 1px solid #1e2030; border-radius: 12px; padding: 1.75rem; transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; }
-  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #7c6dfa, #a78bfa); opacity: 0; transition: opacity 0.2s; }
-  .project-card:hover { border-color: rgba(124,109,250,0.4); transform: translateY(-2px); }
-  .project-card:hover::before { opacity: 1; }
-  .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 1rem; }
-  .project-name { font-size: 16px; font-weight: 500; color: #f1f5f9; }
-  .project-year { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #475569; background: #1e2030; padding: 3px 9px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
-  .project-desc { font-size: 13px; color: #64748b; line-height: 1.75; margin-bottom: 1.25rem; }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
-  .tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: rgba(124,109,250,0.08); color: #7c6dfa; border: 1px solid rgba(124,109,250,0.2); padding: 3px 9px; border-radius: 4px; }
-  .project-link { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #475569; text-decoration: none; transition: color 0.2s; }
-  .project-link:hover { color: #7c6dfa; }
-  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-  .skill-group { background: #13131a; border: 1px solid #1e2030; border-radius: 10px; padding: 1.4rem; }
-  .skill-group-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7c6dfa; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #1e2030; }
-  .skill-item { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; font-size: 13px; color: #94a3b8; }
-  .skill-item:last-child { margin-bottom: 0; }
-  .skill-dot { width: 5px; height: 5px; border-radius: 50%; background: #7c6dfa; flex-shrink: 0; }
-  .contact-links { display: flex; gap: 10px; margin-bottom: 1.75rem; flex-wrap: wrap; }
-  .contact-chip { display: flex; align-items: center; gap: 7px; background: #13131a; border: 1px solid #1e2030; border-radius: 8px; padding: 9px 15px; font-size: 13px; color: #94a3b8; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
-  .contact-chip:hover { border-color: #7c6dfa; color: #7c6dfa; }
-  .contact-chip i { font-size: 16px; }
-  .contact-form { background: #13131a; border: 1px solid #1e2030; border-radius: 12px; padding: 2rem; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-  .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 1rem; }
-  .form-label { font-size: 11px; color: #475569; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; text-transform: uppercase; }
-  .form-input, .form-textarea { background: #0d0d0f; border: 1px solid #1e2030; border-radius: 8px; padding: 11px 14px; color: #e2e8f0; font-size: 14px; font-family: 'Inter', sans-serif; transition: border-color 0.2s; width: 100%; outline: none; }
-  .form-input::placeholder, .form-textarea::placeholder { color: #334155; }
-  .form-input:focus, .form-textarea:focus { border-color: #7c6dfa; }
-  .form-textarea { resize: vertical; min-height: 130px; }
-  .form-submit { background: #7c6dfa; color: #fff; border: none; padding: 13px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.2s, transform 0.15s; width: 100%; margin-top: 1.25rem; }
-  .form-submit:hover { background: #6c5de8; transform: translateY(-1px); }
-  .success-msg { display: none; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25); color: #4ade80; border-radius: 8px; padding: 12px 16px; font-size: 13px; margin-top: 1rem; text-align: center; font-family: 'JetBrains Mono', monospace; }
-  footer { text-align: center; padding: 2.5rem; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #1e2030; border-top: 1px solid #1e2030; }
-  @media (max-width: 680px) {
-    nav { padding: 1rem 1.25rem; } .nav-links { gap: 1rem; } .hero { padding: 4rem 1.25rem 3rem; } .hero h1 { font-size: 34px; } .section { padding: 3rem 1.25rem; } .about-grid { grid-template-columns: 1fr; gap: 2rem; } .projects-grid { grid-template-columns: 1fr; } .skills-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-dim: #1f6feb33;
+    --green: #3fb950;
+    --red: #f85149;
+    --user-bg: #1f6feb;
+    --ai-bg: #161b22;
+    --font-mono: 'Courier New', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 12px; }
+
+  .logo {
+    width: 36px; height: 36px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .header-title { font-size: 1rem; font-weight: 600; }
+  .header-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
+
+  .header-right { display: flex; align-items: center; gap: 10px; }
+
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--red);
+    transition: background 0.3s;
+  }
+  .status-dot.online { background: var(--green); }
+
+  .status-label { font-size: 0.78rem; color: var(--text-muted); }
+
+  select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    outline: none;
+  }
+
+  select:focus { border-color: var(--accent); }
+
+  .btn-clear {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-clear:hover { border-color: var(--red); color: var(--red); }
+
+  /* ── Messages ── */
+  #messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    scroll-behavior: smooth;
+  }
+
+  #messages::-webkit-scrollbar { width: 6px; }
+  #messages::-webkit-scrollbar-track { background: transparent; }
+  #messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .message { display: flex; gap: 10px; max-width: 820px; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .message.user { align-self: flex-end; flex-direction: row-reverse; }
+  .message.assistant { align-self: flex-start; }
+
+  .avatar {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0; margin-top: 2px;
+  }
+  .message.user .avatar { background: var(--user-bg); }
+  .message.assistant .avatar { background: var(--surface2); border: 1px solid var(--border); }
+
+  .bubble {
+    padding: 0.7rem 1rem;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    max-width: 680px;
+  }
+  .message.user .bubble {
+    background: var(--user-bg);
+    color: #fff;
+    border-bottom-right-radius: 3px;
+  }
+  .message.assistant .bubble {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 3px;
+    color: var(--text);
+  }
+
+  /* Markdown-like rendering */
+  .bubble code {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+
+  .bubble pre {
+    background: #010409;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 0.6rem 0;
+    position: relative;
+  }
+
+  .bubble pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.85rem;
+    color: #e6edf3;
+  }
+
+  .copy-btn {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+
+  .bubble strong { color: var(--accent); font-weight: 600; }
+  .bubble em { color: var(--text-muted); font-style: italic; }
+
+  .bubble ul, .bubble ol { padding-left: 1.4rem; margin: 0.4rem 0; }
+  .bubble li { margin: 0.2rem 0; }
+
+  .bubble p { margin: 0.3rem 0; }
+  .bubble p:first-child { margin-top: 0; }
+  .bubble p:last-child { margin-bottom: 0; }
+
+  .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+  .typing-indicator span {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--text-muted);
+    animation: bounce 1.2s infinite;
+  }
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  .timestamp { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; text-align: right; }
+  .message.assistant .timestamp { text-align: left; }
+
+  /* Welcome screen */
+  #welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 1rem;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 2rem;
+  }
+
+  #welcome .icon { font-size: 3rem; }
+  #welcome h2 { color: var(--text); font-size: 1.3rem; }
+  #welcome p { font-size: 0.88rem; max-width: 400px; line-height: 1.6; }
+
+  .suggestions {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; margin-top: 0.5rem;
+  }
+
+  .suggestion-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .suggestion-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+  /* ── Input area ── */
+  .input-area {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    transition: border-color 0.2s;
+  }
+  .input-wrapper:focus-within { border-color: var(--accent); }
+
+  #user-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 0.92rem;
+    resize: none;
+    outline: none;
+    max-height: 140px;
+    min-height: 22px;
+    line-height: 1.5;
+    font-family: inherit;
+  }
+
+  #user-input::placeholder { color: var(--text-muted); }
+
+  #send-btn {
+    background: var(--accent);
+    border: none;
+    color: #fff;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  #send-btn:hover { background: #79c0ff; transform: scale(1.05); }
+  #send-btn:disabled { background: var(--border); cursor: not-allowed; transform: none; }
+
+  .input-hint { font-size: 0.72rem; color: var(--text-muted); margin-top: 6px; text-align: center; }
+
+  /* Error bubble */
+  .error-bubble {
+    background: #f8514922;
+    border: 1px solid var(--red);
+    color: var(--red);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    align-self: center;
+    max-width: 600px;
+    text-align: center;
   }
 </style>
 </head>
 <body>
-<nav>
-  <a class="nav-logo mono" href="#">teesha.mehta</a>
-  <ul class="nav-links">
-    <li><a href="#about">about</a></li>
-    <li><a href="#projects">projects</a></li>
-    <li><a href="#skills">skills</a></li>
-    <li><a href="#contact">contact</a></li>
-  </ul>
-</nav>
-<section class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-content">
-    <div class="hero-tag">// available for opportunities</div>
-    <h1>Hi, I'm <span>Teesha Mehta</span></h1>
-    <p class="hero-sub">Computer Science student building full-stack applications, AI-powered tools, and scalable backend systems. 6 projects live on GitHub.</p>
-    <div class="hero-btns">
-      <a href="#projects" class="btn-primary">View my work</a>
-      <a href="#contact" class="btn-ghost">Get in touch</a>
-    </div>
-  </div>
-</section>
-<section class="section" id="about">
-  <p class="section-label">// 01. about</p>
-  <h2 class="section-title">Who I am</h2>
-  <div class="about-grid">
+
+<header>
+  <div class="header-left">
+    <div class="logo">🤖</div>
     <div>
-      <div class="about-text">
-        <p>I'm a Computer Science student at CUNY Queens College (B.S. expected Dec 2026), passionate about building software that solves real problems. I specialize in full-stack development, AI integrations, and backend systems.</p>
-        <p>I've independently shipped 6 projects ranging from a hotel booking platform to local AI chatbots and data dashboards. Always learning, always building. Looking for opportunities where I can contribute, grow, and make an impact.</p>
-      </div>
-    </div>
-    <div class="about-stats">
-      <div class="stat-card"><span class="stat-num">6</span><div class="stat-label">Projects shipped</div></div>
-      <div class="stat-card"><span class="stat-num">10+</span><div class="stat-label">Technologies</div></div>
-      <div class="stat-card"><span class="stat-num">2026</span><div class="stat-label">Graduating</div></div>
-      <div class="stat-card"><span class="stat-num">NYC</span><div class="stat-label">Based in</div></div>
+      <div class="header-title">Local AI Chatbot</div>
+      <div class="header-sub">Powered by Ollama · Runs on your machine</div>
     </div>
   </div>
-</section>
-<section class="section" id="projects">
-  <p class="section-label">// 02. projects</p>
-  <h2 class="section-title">Things I've built</h2>
-  <div class="projects-grid">
-    <div class="project-card">
-      <div class="project-header"><span class="project-name">AI Resume Analyzer</span><span class="project-year">2025</span></div>
-      <p class="project-desc">Upload a resume and job description to get an AI-powered match score, keyword gap analysis, and improvement suggestions. Built with free local AI tools, no paid APIs.</p>
-      <div class="project-tags"><span class="tag">Python</span><span class="tag">Flask</span><span class="tag">HuggingFace</span><span class="tag">pdfplumber</span><span class="tag">NLP</span></div>
-      <a class="project-link" href="https://github.com/Teesha1610/resume-analyzer-ai" target="_blank">github.com/Teesha1610/resume-analyzer-ai →</a>
-    </div>
-    <div class="project-card">
-      <div class="project-header"><span class="project-name">Local AI Chatbot</span><span class="project-year">2025</span></div>
-      <p class="project-desc">A fully local AI chat app powered by Ollama running Llama 3 on-device. No API keys, no internet required. Clean React interface with real-time streaming responses.</p>
-      <div class="project-tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Ollama</span><span class="tag">Llama 3</span><span class="tag">TypeScript</span></div>
-      <a class="project-link" href="https://github.com/Teesha1610/local-ai-chatbot" target="_blank">github.com/Teesha1610/local-ai-chatbot →</a>
-    </div>
-    <div class="project-card">
-      <div class="project-header"><span class="project-name">GitHub Analytics Dashboard</span><span class="project-year">2025</span></div>
-      <p class="project-desc">Enter any GitHub username to visualize their coding activity, top languages, commit streaks, and repo stats in a beautiful interactive dashboard.</p>
-      <div class="project-tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">GitHub API</span><span class="tag">Chart.js</span><span class="tag">CSS</span></div>
-      <a class="project-link" href="https://github.com/Teesha1610/github-analytics-dashboard" target="_blank">github.com/Teesha1610/github-analytics-dashboard →</a>
-    </div>
-    <div class="project-card">
-      <div class="project-header"><span class="project-name">Staycation Booking Platform</span><span class="project-year">2025</span></div>
-      <p class="project-desc">A full-stack hotel booking platform where users can host properties, book stays, and leave reviews. Features secure authentication, availability tracking, and interactive Leaflet.js maps.</p>
-      <div class="project-tags"><span class="tag">Node.js</span><span class="tag">Express.js</span><span class="tag">MongoDB</span><span class="tag">React.js</span><span class="tag">REST API</span></div>
-      <a class="project-link" href="https://github.com/Teesha1610" target="_blank">github.com/Teesha1610 →</a>
-    </div>
-    <div class="project-card">
-      <div class="project-header"><span class="project-name">AI Chatbot Assistant</span><span class="project-year">2025</span></div>
-      <p class="project-desc">A Python-based AI chatbot using GPT models via the OpenAI API. Applies NLP techniques with NLTK and spaCy for intent recognition, deployed through a Flask web interface.</p>
-      <div class="project-tags"><span class="tag">Python</span><span class="tag">OpenAI API</span><span class="tag">Flask</span><span class="tag">NLTK</span><span class="tag">spaCy</span></div>
-      <a class="project-link" href="https://github.com/Teesha1610" target="_blank">github.com/Teesha1610 →</a>
-    </div>
-    <div class="project-card">
-      <div class="project-header"><span class="project-name">Library Management System</span><span class="project-year">2025</span></div>
-      <p class="project-desc">A backend system for managing library books, users, and borrowing records. Features role-based access control, secure authentication, reservation tracking, and MongoDB persistence.</p>
-      <div class="project-tags"><span class="tag">JavaScript</span><span class="tag">MongoDB</span><span class="tag">REST API</span><span class="tag">HTML</span><span class="tag">CSS</span></div>
-      <a class="project-link" href="https://github.com/Teesha1610" target="_blank">github.com/Teesha1610 →</a>
+  <div class="header-right">
+    <div class="status-dot" id="status-dot"></div>
+    <span class="status-label" id="status-label">Checking...</span>
+    <select id="model-select">
+      <option value="llama3.2">llama3.2</option>
+    </select>
+    <button class="btn-clear" onclick="clearChat()">🗑 Clear</button>
+  </div>
+</header>
+
+<div id="messages">
+  <div id="welcome">
+    <div class="icon">🤖</div>
+    <h2>Your Local AI Assistant</h2>
+    <p>100% private. No internet after setup. Runs entirely on your laptop.</p>
+    <div class="suggestions">
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">Explain machine learning</div>
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">Write a Python function</div>
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">What is a REST API?</div>
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">Help me with my resume</div>
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">Explain neural networks</div>
+      <div class="suggestion-chip" onclick="sendSuggestion(this)">Write a sorting algorithm</div>
     </div>
   </div>
-</section>
-<section class="section" id="skills">
-  <p class="section-label">// 03. skills</p>
-  <h2 class="section-title">What I work with</h2>
-  <div class="skills-grid">
-    <div class="skill-group">
-      <div class="skill-group-title">Languages</div>
-      <div class="skill-item"><span class="skill-dot"></span>Python</div>
-      <div class="skill-item"><span class="skill-dot"></span>JavaScript & TypeScript</div>
-      <div class="skill-item"><span class="skill-dot"></span>Java & C++</div>
-      <div class="skill-item"><span class="skill-dot"></span>HTML & CSS</div>
-      <div class="skill-item"><span class="skill-dot"></span>PHP & Rust</div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Frameworks & Libraries</div>
-      <div class="skill-item"><span class="skill-dot"></span>React.js & Angular</div>
-      <div class="skill-item"><span class="skill-dot"></span>Node.js & Express.js</div>
-      <div class="skill-item"><span class="skill-dot"></span>Flask & Spring</div>
-      <div class="skill-item"><span class="skill-dot"></span>NLTK, spaCy & HuggingFace</div>
-      <div class="skill-item"><span class="skill-dot"></span>REST APIs & LangChain</div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">AI & Data</div>
-      <div class="skill-item"><span class="skill-dot"></span>Ollama & Local LLMs</div>
-      <div class="skill-item"><span class="skill-dot"></span>OpenAI API & GPT models</div>
-      <div class="skill-item"><span class="skill-dot"></span>HuggingFace Transformers</div>
-      <div class="skill-item"><span class="skill-dot"></span>pgvector & Embeddings</div>
-      <div class="skill-item"><span class="skill-dot"></span>NLP Pipelines</div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Tools & Practices</div>
-      <div class="skill-item"><span class="skill-dot"></span>Git & GitHub</div>
-      <div class="skill-item"><span class="skill-dot"></span>Azure & Docker</div>
-      <div class="skill-item"><span class="skill-dot"></span>MongoDB, Postgres & MySQL</div>
-      <div class="skill-item"><span class="skill-dot"></span>Agile & Code Review</div>
-      <div class="skill-item"><span class="skill-dot"></span>Linux / Unix</div>
-    </div>
+</div>
+
+<div class="input-area">
+  <div class="input-wrapper">
+    <textarea id="user-input" placeholder="Message your local AI..." rows="1"></textarea>
+    <button id="send-btn" onclick="sendMessage()" title="Send (Enter)">➤</button>
   </div>
-</section>
-<section class="section" id="contact">
-  <p class="section-label">// 04. contact</p>
-  <h2 class="section-title">Let's connect</h2>
-  <div class="contact-links">
-    <a class="contact-chip" href="mailto:teeshamehta1610@gmail.com"><i class="ti ti-mail"></i>teeshamehta1610@gmail.com</a>
-    <a class="contact-chip" href="https://linkedin.com/in/teesha-mehta-9257b6248" target="_blank"><i class="ti ti-brand-linkedin"></i>LinkedIn</a>
-    <a class="contact-chip" href="https://github.com/Teesha1610" target="_blank"><i class="ti ti-brand-github"></i>GitHub</a>
-    <span class="contact-chip"><i class="ti ti-phone"></i>+1.585.837.0659</span>
-  </div>
-  <div class="contact-form">
-    <div class="form-row">
-      <div class="form-group" style="margin-bottom:0"><label class="form-label" for="fname">Name</label><input class="form-input" type="text" id="fname" placeholder="Your name" /></div>
-      <div class="form-group" style="margin-bottom:0"><label class="form-label" for="femail">Email</label><input class="form-input" type="email" id="femail" placeholder="your@email.com" /></div>
-    </div>
-    <div class="form-group" style="margin-top:1rem"><label class="form-label" for="fsubject">Subject</label><input class="form-input" type="text" id="fsubject" placeholder="What's this about?" /></div>
-    <div class="form-group"><label class="form-label" for="fmessage">Message</label><textarea class="form-textarea" id="fmessage" placeholder="Tell me about your project or opportunity..."></textarea></div>
-    <button class="form-submit" onclick="submitForm()">Send message →</button>
-    <div class="success-msg" id="success">✓ Opening your email client with the message pre-filled!</div>
-  </div>
-</section>
-<footer>built with ♥ by teesha mehta · 2025 · 6 projects · always building</footer>
+  <div class="input-hint">Enter to send · Shift+Enter for new line · All processing happens locally</div>
+</div>
+
 <script>
-function submitForm() {
-  const name = document.getElementById('fname').value.trim();
-  const email = document.getElementById('femail').value.trim();
-  const subject = document.getElementById('fsubject').value.trim();
-  const message = document.getElementById('fmessage').value.trim();
-  if (!name || !email || !message) { alert('Please fill in your name, email, and message.'); return; }
-  const body = 'From: ' + name + ' (' + email + ')\n\n' + message;
-  const mailto = 'mailto:teeshamehta1610@gmail.com?subject=' + encodeURIComponent(subject || 'Portfolio Contact from ' + name) + '&body=' + encodeURIComponent(body);
-  window.location.href = mailto;
-  document.getElementById('success').style.display = 'block';
-}
+  const messagesDiv = document.getElementById('messages');
+  const inputEl = document.getElementById('user-input');
+  const sendBtn = document.getElementById('send-btn');
+  const modelSelect = document.getElementById('model-select');
+  const statusDot = document.getElementById('status-dot');
+  const statusLabel = document.getElementById('status-label');
+  let isStreaming = false;
+
+  // ── Load models on startup ──
+  async function loadModels() {
+    try {
+      const res = await fetch('/api/models');
+      const data = await res.json();
+      if (data.status === 'ok' && data.models.length > 0) {
+        modelSelect.innerHTML = data.models.map(m =>
+          `<option value="${m}">${m.replace(':latest','')}</option>`
+        ).join('');
+        statusDot.classList.add('online');
+        statusLabel.textContent = 'Ollama online';
+      } else {
+        statusLabel.textContent = 'Ollama offline';
+        statusLabel.style.color = '#f85149';
+      }
+    } catch {
+      statusLabel.textContent = 'Ollama offline';
+      statusLabel.style.color = '#f85149';
+    }
+  }
+
+  loadModels();
+
+  // ── Auto-resize textarea ──
+  inputEl.addEventListener('input', () => {
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 140) + 'px';
+  });
+
+  // ── Enter to send ──
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  function sendSuggestion(el) {
+    inputEl.value = el.textContent;
+    sendMessage();
+  }
+
+  function getTime() {
+    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // ── Simple markdown renderer ──
+  function renderMarkdown(text) {
+    // Code blocks
+    text = text.replace(/```(\w+)?\n?([\s\S]*?)```/g, (_, lang, code) => {
+      const escaped = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return `<pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code class="language-${lang || ''}">${escaped}</code></pre>`;
+    });
+    // Inline code
+    text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+    // Bold
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Italic
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    // Unordered lists
+    text = text.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>');
+    text = text.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    // Numbered lists
+    text = text.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+    // Line breaks to paragraphs
+    text = text.split('\n\n').map(p => p.trim() ? `<p>${p}</p>` : '').join('');
+    text = text.replace(/\n/g, '<br>');
+    return text;
+  }
+
+  function copyCode(btn) {
+    const code = btn.nextElementSibling.textContent;
+    navigator.clipboard.writeText(code);
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  }
+
+  function appendMessage(role, content, isStreaming = false) {
+    const welcome = document.getElementById('welcome');
+    if (welcome) welcome.remove();
+
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+    div.innerHTML = `
+      <div class="avatar">${role === 'user' ? '👤' : '🤖'}</div>
+      <div>
+        <div class="bubble" id="bubble-${Date.now()}">${
+          isStreaming
+            ? '<div class="typing-indicator"><span></span><span></span><span></span></div>'
+            : (role === 'assistant' ? renderMarkdown(content) : content)
+        }</div>
+        <div class="timestamp">${getTime()}</div>
+      </div>
+    `;
+    messagesDiv.appendChild(div);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    return div.querySelector('.bubble');
+  }
+
+  async function sendMessage() {
+    const message = inputEl.value.trim();
+    if (!message || isStreaming) return;
+
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    isStreaming = true;
+    sendBtn.disabled = true;
+
+    appendMessage('user', message);
+    const aiBubble = appendMessage('assistant', '', true);
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, model: modelSelect.value })
+      });
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let fullText = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const lines = decoder.decode(value).split('\n');
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          try {
+            const data = JSON.parse(line.slice(6));
+            if (data.error) {
+              aiBubble.innerHTML = `<div class="error-bubble">⚠️ ${data.error}</div>`;
+              break;
+            }
+            if (data.token) {
+              fullText += data.token;
+              aiBubble.innerHTML = renderMarkdown(fullText) + '<span style="opacity:0.5">▍</span>';
+              messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+            if (data.done) {
+              aiBubble.innerHTML = renderMarkdown(fullText);
+            }
+          } catch {}
+        }
+      }
+    } catch (e) {
+      aiBubble.innerHTML = `<div class="error-bubble">⚠️ Could not connect. Is Ollama running? Run: <code>ollama serve</code></div>`;
+    }
+
+    isStreaming = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+
+  async function clearChat() {
+    await fetch('/api/clear', { method: 'POST' });
+    messagesDiv.innerHTML = `
+      <div id="welcome" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:1rem;color:var(--text-muted);text-align:center;padding:2rem;">
+        <div class="icon" style="font-size:3rem">🤖</div>
+        <h2 style="color:var(--text);font-size:1.3rem">Your Local AI Assistant</h2>
+        <p style="font-size:0.88rem;max-width:400px;line-height:1.6">100% private. No internet after setup. Runs entirely on your laptop.</p>
+      </div>`;
+  }
 </script>
 </body>
 </html>
