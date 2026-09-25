@@ -1,531 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Local AI Chatbot</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teesha Mehta — backend systems &amp; applied AI</title>
+<meta name="description" content="Computer Science student building backend systems and applied AI: a durable task queue library, an offline RAG assistant with a security layer, and developer analytics tooling.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #21262d;
-    --border: #30363d;
-    --text: #e6edf3;
-    --text-muted: #8b949e;
-    --accent: #58a6ff;
-    --accent-dim: #1f6feb33;
-    --green: #3fb950;
-    --red: #f85149;
-    --user-bg: #1f6feb;
-    --ai-bg: #161b22;
-    --font-mono: 'Courier New', monospace;
+  :root{
+    --paper:#EFEFEA;
+    --paper-2:#E7E7E0;
+    --ink:#14161A;
+    --ink-soft:#4B5058;
+    --rule:#C9C9C0;
+    --signal:#1B45C4;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+    --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+  @media (prefers-color-scheme:dark){
+    :root{ --paper:#15171A; --paper-2:#1D2025; --ink:#E9E9E4; --ink-soft:#A2A8B2; --rule:#33383F; --signal:#8FB0FF; }
   }
-
-  /* ── Header ── */
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0.9rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--serif); font-size:1.0625rem; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
   }
+  .skip{position:absolute;left:-9999px}
+  .skip:focus{left:1rem;top:1rem;background:var(--ink);color:var(--paper);padding:.5rem .75rem;z-index:10}
+  a{color:var(--signal); text-underline-offset:.18em; text-decoration-thickness:.06em}
+  a:hover{text-decoration-thickness:.12em}
+  :focus-visible{outline:2px solid var(--signal); outline-offset:3px}
 
-  .header-left { display: flex; align-items: center; gap: 12px; }
+  .wrap{max-width:74rem;margin:0 auto;padding:0 1.5rem}
 
-  .logo {
-    width: 36px; height: 36px;
-    background: var(--accent-dim);
-    border: 1px solid var(--accent);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
+  /* ---------- masthead ---------- */
+  header.top{border-bottom:1px solid var(--rule)}
+  .top .wrap{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:baseline;padding-top:1.1rem;padding-bottom:1.1rem}
+  .wordmark{font-family:var(--sans);font-weight:600;letter-spacing:-.01em;font-size:1rem}
+  nav{margin-left:auto;font-family:var(--sans);font-size:.9375rem}
+  nav a{margin-left:1.4rem;color:var(--ink-soft);text-decoration:none}
+  nav a:hover,nav a:focus-visible{color:var(--ink);text-decoration:underline}
+
+  /* ---------- hero ---------- */
+  .hero{padding:5rem 0 3.5rem}
+  .hero h1{
+    font-family:var(--sans);font-weight:600;letter-spacing:-.025em;
+    font-size:clamp(2.35rem,6.2vw,4.1rem); line-height:1.02; margin:0 0 1.25rem;
   }
+  .lede{max-width:34em;font-size:1.1875rem;color:var(--ink-soft);margin:0 0 2.5rem}
+  .lede strong{color:var(--ink);font-weight:500}
 
-  .header-title { font-size: 1rem; font-weight: 600; }
-  .header-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
-
-  .header-right { display: flex; align-items: center; gap: 10px; }
-
-  .status-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--red);
-    transition: background 0.3s;
+  /* the one bold element: a measured finding, set as a record */
+  .finding{border-top:2px solid var(--ink);max-width:46rem}
+  .finding dl{display:grid;grid-template-columns:9.5rem 1fr;gap:0;margin:0}
+  .finding dt{
+    font-family:var(--sans);font-size:.8125rem;font-weight:500;color:var(--ink-soft);
+    padding:.85rem 1rem .85rem 0;border-bottom:1px solid var(--rule)
   }
-  .status-dot.online { background: var(--green); }
+  .finding dd{margin:0;padding:.85rem 0;border-bottom:1px solid var(--rule);font-size:.9375rem}
+  .finding .big{font-family:var(--mono);font-size:1.5rem;font-weight:500;color:var(--signal);letter-spacing:-.02em}
+  code,.m{font-family:var(--mono);font-size:.9em}
+  .m{color:var(--signal)}
 
-  .status-label { font-size: 0.78rem; color: var(--text-muted); }
-
-  select {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 0.82rem;
-    cursor: pointer;
-    outline: none;
+  /* ---------- sections ---------- */
+  section{padding:3.75rem 0;border-top:1px solid var(--rule)}
+  h2{
+    font-family:var(--sans);font-weight:600;letter-spacing:-.015em;
+    font-size:1.5rem;margin:0 0 2rem
   }
+  .grid{display:grid;grid-template-columns:11rem 1fr;gap:2.5rem}
+  @media (max-width:52rem){ .grid{grid-template-columns:1fr;gap:1rem} }
+  .side{font-family:var(--sans);font-size:.875rem;color:var(--ink-soft);line-height:1.5}
+  .body{max-width:40em}
+  .body p{margin:0 0 1rem}
+  .body p:last-child{margin-bottom:0}
 
-  select:focus { border-color: var(--accent); }
+  /* ---------- projects ---------- */
+  .proj{padding:2.25rem 0;border-top:1px solid var(--rule)}
+  .proj:first-of-type{border-top:2px solid var(--ink)}
+  .proj-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1rem;margin-bottom:.35rem}
+  .proj-head h3{font-family:var(--sans);font-weight:600;font-size:1.25rem;margin:0;letter-spacing:-.01em}
+  .stack{font-family:var(--mono);font-size:.8125rem;color:var(--ink-soft);margin-left:auto}
+  .tagline{margin:0 0 1.1rem;color:var(--ink-soft);max-width:44em}
+  .proj ul{margin:0 0 1.1rem;padding-left:1.1rem;max-width:44em}
+  .proj li{margin-bottom:.6rem}
+  .proj li::marker{color:var(--rule)}
+  .repo{font-family:var(--sans);font-size:.9375rem}
 
-  .btn-clear {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 5px 12px;
-    border-radius: 6px;
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: all 0.2s;
+  /* ---------- secondary projects ---------- */
+  .more{margin-top:3rem}
+  .more > h3{
+    font-family:var(--sans);font-weight:600;font-size:1.0625rem;margin:0 0 .35rem;
+    padding-top:1.5rem;border-top:2px solid var(--ink)
   }
-  .btn-clear:hover { border-color: var(--red); color: var(--red); }
-
-  /* ── Messages ── */
-  #messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    scroll-behavior: smooth;
+  .more > p.note{margin:0 0 1.5rem;color:var(--ink-soft);font-size:.9375rem;max-width:44em}
+  .more dl{margin:0;display:grid;grid-template-columns:1fr;gap:0}
+  .more dt{
+    font-family:var(--sans);font-weight:600;font-size:1rem;
+    padding-top:1.1rem;border-top:1px solid var(--rule)
   }
+  .more dd{margin:0 0 1.1rem;max-width:44em}
+  .more dd .stack{margin-left:0;display:block;margin-top:.3rem}
+  .more dd .repo{margin:.35rem 0 0}
 
-  #messages::-webkit-scrollbar { width: 6px; }
-  #messages::-webkit-scrollbar-track { background: transparent; }
-  #messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  /* ---------- experience / education ---------- */
+  .entry{margin-bottom:2rem}
+  .entry:last-child{margin-bottom:0}
+  .entry h3{font-family:var(--sans);font-weight:600;font-size:1.0625rem;margin:0 0 .15rem}
+  .when{font-family:var(--mono);font-size:.8125rem;color:var(--ink-soft);margin:0 0 .7rem}
+  .entry ul{margin:0;padding-left:1.1rem;max-width:44em}
+  .entry li{margin-bottom:.5rem}
+  .entry li::marker{color:var(--rule)}
 
-  .message { display: flex; gap: 10px; max-width: 820px; animation: fadeIn 0.2s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  /* ---------- skills ---------- */
+  .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.75rem 2.5rem;max-width:62rem}
+  .skills h3{font-family:var(--sans);font-size:.9375rem;font-weight:600;margin:0 0 .5rem;padding-bottom:.4rem;border-bottom:1px solid var(--rule)}
+  .skills p{margin:0;font-size:.9375rem;color:var(--ink-soft);line-height:1.6}
 
-  .message.user { align-self: flex-end; flex-direction: row-reverse; }
-  .message.assistant { align-self: flex-start; }
-
-  .avatar {
-    width: 32px; height: 32px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; flex-shrink: 0; margin-top: 2px;
-  }
-  .message.user .avatar { background: var(--user-bg); }
-  .message.assistant .avatar { background: var(--surface2); border: 1px solid var(--border); }
-
-  .bubble {
-    padding: 0.7rem 1rem;
-    border-radius: 12px;
-    font-size: 0.92rem;
-    line-height: 1.65;
-    max-width: 680px;
-  }
-  .message.user .bubble {
-    background: var(--user-bg);
-    color: #fff;
-    border-bottom-right-radius: 3px;
-  }
-  .message.assistant .bubble {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-bottom-left-radius: 3px;
-    color: var(--text);
-  }
-
-  /* Markdown-like rendering */
-  .bubble code {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 0.85em;
-  }
-
-  .bubble pre {
-    background: #010409;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem;
-    overflow-x: auto;
-    margin: 0.6rem 0;
-    position: relative;
-  }
-
-  .bubble pre code {
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: 0.85rem;
-    color: #e6edf3;
-  }
-
-  .copy-btn {
-    position: absolute; top: 8px; right: 8px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.72rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .copy-btn:hover { color: var(--text); border-color: var(--accent); }
-
-  .bubble strong { color: var(--accent); font-weight: 600; }
-  .bubble em { color: var(--text-muted); font-style: italic; }
-
-  .bubble ul, .bubble ol { padding-left: 1.4rem; margin: 0.4rem 0; }
-  .bubble li { margin: 0.2rem 0; }
-
-  .bubble p { margin: 0.3rem 0; }
-  .bubble p:first-child { margin-top: 0; }
-  .bubble p:last-child { margin-bottom: 0; }
-
-  .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
-  .typing-indicator span {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--text-muted);
-    animation: bounce 1.2s infinite;
-  }
-  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes bounce {
-    0%, 60%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-6px); }
-  }
-
-  .timestamp { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; text-align: right; }
-  .message.assistant .timestamp { text-align: left; }
-
-  /* Welcome screen */
-  #welcome {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    gap: 1rem;
-    color: var(--text-muted);
-    text-align: center;
-    padding: 2rem;
-  }
-
-  #welcome .icon { font-size: 3rem; }
-  #welcome h2 { color: var(--text); font-size: 1.3rem; }
-  #welcome p { font-size: 0.88rem; max-width: 400px; line-height: 1.6; }
-
-  .suggestions {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    justify-content: center; margin-top: 0.5rem;
-  }
-
-  .suggestion-chip {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .suggestion-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-
-  /* ── Input area ── */
-  .input-area {
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    padding: 1rem 1.5rem;
-    flex-shrink: 0;
-  }
-
-  .input-wrapper {
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 14px;
-    transition: border-color 0.2s;
-  }
-  .input-wrapper:focus-within { border-color: var(--accent); }
-
-  #user-input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: var(--text);
-    font-size: 0.92rem;
-    resize: none;
-    outline: none;
-    max-height: 140px;
-    min-height: 22px;
-    line-height: 1.5;
-    font-family: inherit;
-  }
-
-  #user-input::placeholder { color: var(--text-muted); }
-
-  #send-btn {
-    background: var(--accent);
-    border: none;
-    color: #fff;
-    width: 34px; height: 34px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-  #send-btn:hover { background: #79c0ff; transform: scale(1.05); }
-  #send-btn:disabled { background: var(--border); cursor: not-allowed; transform: none; }
-
-  .input-hint { font-size: 0.72rem; color: var(--text-muted); margin-top: 6px; text-align: center; }
-
-  /* Error bubble */
-  .error-bubble {
-    background: #f8514922;
-    border: 1px solid var(--red);
-    color: var(--red);
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    align-self: center;
-    max-width: 600px;
-    text-align: center;
-  }
+  /* ---------- contact ---------- */
+  .contact-list{list-style:none;margin:0;padding:0;font-family:var(--sans);font-size:1.0625rem}
+  .contact-list li{margin-bottom:.6rem}
+  footer{border-top:1px solid var(--rule);padding:2rem 0 3rem;font-family:var(--sans);font-size:.875rem;color:var(--ink-soft)}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<header>
-  <div class="header-left">
-    <div class="logo">🤖</div>
-    <div>
-      <div class="header-title">Local AI Chatbot</div>
-      <div class="header-sub">Powered by Ollama · Runs on your machine</div>
-    </div>
-  </div>
-  <div class="header-right">
-    <div class="status-dot" id="status-dot"></div>
-    <span class="status-label" id="status-label">Checking...</span>
-    <select id="model-select">
-      <option value="llama3.2">llama3.2</option>
-    </select>
-    <button class="btn-clear" onclick="clearChat()">🗑 Clear</button>
+<header class="top">
+  <div class="wrap">
+    <span class="wordmark">Teesha Mehta</span>
+    <nav aria-label="Sections">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </div>
 </header>
 
-<div id="messages">
-  <div id="welcome">
-    <div class="icon">🤖</div>
-    <h2>Your Local AI Assistant</h2>
-    <p>100% private. No internet after setup. Runs entirely on your laptop.</p>
-    <div class="suggestions">
-      <div class="suggestion-chip" onclick="sendSuggestion(this)">Explain machine learning</div>
-      <div class="suggestion-chip" onclick="sendSuggestion(this)">Write a Python function</div>
-      <div class="suggestion-chip" onclick="sendSuggestion(this)">What is a REST API?</div>
-      <div class="suggestion-chip" onclick="sendSuggestion(this)">Help me with my resume</div>
-      <div class="suggestion-chip" onclick="sendSuggestion(this)">Explain neural networks</div>
-      <div class="suggestion-chip" onclick="sendSuggestion(this)">Write a sorting algorithm</div>
+<main id="main">
+
+  <div class="wrap hero">
+    <h1>I build backend systems<br>that hold up under load.</h1>
+    <p class="lede">Computer Science student at CUNY Queens College, graduating <strong>December 2026</strong>. I write Python services and libraries — durable queues, retrieval systems, developer tooling — and I test them until they break.</p>
+
+    <div class="finding">
+      <dl>
+        <dt>Finding</dt>
+        <dd><span class="big">9&times;</span> throughput collapse, on Windows only</dd>
+        <dt>Root cause</dt>
+        <dd><code>15.6 ms</code> timer granularity in <code>threading.Event.wait</code></dd>
+        <dt>Caught by</dt>
+        <dd>a 10-configuration CI matrix across Linux, macOS and Windows</dd>
+        <dt>Where</dt>
+        <dd>taskhive, my task queue library — two other defects surfaced the same way</dd>
+      </dl>
     </div>
   </div>
-</div>
 
-<div class="input-area">
-  <div class="input-wrapper">
-    <textarea id="user-input" placeholder="Message your local AI..." rows="1"></textarea>
-    <button id="send-btn" onclick="sendMessage()" title="Send (Enter)">➤</button>
-  </div>
-  <div class="input-hint">Enter to send · Shift+Enter for new line · All processing happens locally</div>
-</div>
+  <section id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
 
-<script>
-  const messagesDiv = document.getElementById('messages');
-  const inputEl = document.getElementById('user-input');
-  const sendBtn = document.getElementById('send-btn');
-  const modelSelect = document.getElementById('model-select');
-  const statusDot = document.getElementById('status-dot');
-  const statusLabel = document.getElementById('status-label');
-  let isStreaming = false;
+      <article class="proj">
+        <div class="proj-head">
+          <h3>taskhive</h3>
+          <span class="stack">Python · SQLite · pytest · Hypothesis · GitHub Actions</span>
+        </div>
+        <p class="tagline">A zero-dependency durable task queue library, with crash recovery and a cross-platform performance fix backed by measurement.</p>
+        <ul>
+          <li>At-least-once delivery, lease-based crash recovery, and exponential backoff with full jitter. Packaged with a command-line entry point and complete type annotations.</li>
+          <li>Atomic task claiming across concurrent workers using a single <code>UPDATE ... RETURNING</code> inside a <code>BEGIN IMMEDIATE</code> transaction — verified with <span class="m">8 threads</span> racing for <span class="m">200 tasks</span> and zero duplicate delivery.</li>
+          <li>Three defects surfaced only by the 10-configuration CI matrix, including the Windows timer-granularity collapse above.</li>
+          <li>Unit and property-based tests with pytest and Hypothesis, covering the concurrency and failure paths that example-based tests miss. Strict type checking with mypy, linting with ruff.</li>
+        </ul>
+        <p class="repo"><a href="https://github.com/Teesha1610/taskhive">github.com/Teesha1610/taskhive</a></p>
+      </article>
 
-  // ── Load models on startup ──
-  async function loadModels() {
-    try {
-      const res = await fetch('/api/models');
-      const data = await res.json();
-      if (data.status === 'ok' && data.models.length > 0) {
-        modelSelect.innerHTML = data.models.map(m =>
-          `<option value="${m}">${m.replace(':latest','')}</option>`
-        ).join('');
-        statusDot.classList.add('online');
-        statusLabel.textContent = 'Ollama online';
-      } else {
-        statusLabel.textContent = 'Ollama offline';
-        statusLabel.style.color = '#f85149';
-      }
-    } catch {
-      statusLabel.textContent = 'Ollama offline';
-      statusLabel.style.color = '#f85149';
-    }
-  }
+      <article class="proj">
+        <div class="proj-head">
+          <h3>Local AI Assistant</h3>
+          <span class="stack">Python · Ollama · FastAPI · RAG · LLM security</span>
+        </div>
+        <p class="tagline">A conversational assistant that runs entirely offline, answers only from your own documents, and treats those documents as untrusted input.</p>
+        <ul>
+          <li>Runs on locally hosted open-source models through the Ollama REST API, streaming tokens to the browser over server-sent events. No external API, no key, no network.</li>
+          <li>Retrieval over local documents using embeddings and a cosine similarity index, with every answer grounded in and cited to its source file.</li>
+          <li>A guardrail layer over retrieved content: PII and secret redaction, indirect prompt-injection detection, context delimiting, and per-session rate limiting.</li>
+          <li>Findings are surfaced to the user rather than silently dropped — a tool that quietly edits your own files is a tool you stop trusting.</li>
+        </ul>
+        <p class="repo"><a href="https://github.com/Teesha1610/local-ai-chatbot">github.com/Teesha1610/local-ai-chatbot</a></p>
+      </article>
 
-  loadModels();
+      <article class="proj">
+        <div class="proj-head">
+          <h3>GitHub Analytics Dashboard</h3>
+          <span class="stack">Python · FastAPI · Node.js · REST APIs</span>
+        </div>
+        <p class="tagline">Developer analytics over the GitHub REST API — and a study in the parts of that API the documentation glosses over.</p>
+        <ul>
+          <li>Aggregates repository metrics: commit trends, bus factor, pull request cycle time, issue responsiveness, and contribution heatmaps.</li>
+          <li>Handles three non-obvious API behaviors: <code>202</code> responses from statistics endpoints that compute asynchronously, secondary rate limits returning <code>403</code> with <code>Retry-After</code>, and ETag conditional requests so revalidation costs no quota.</li>
+          <li>Two interfaces over one aggregation layer: a browser dashboard with hand-written SVG charts that needs no build step, and a zero-dependency Node.js command-line tool.</li>
+        </ul>
+        <p class="repo"><a href="https://github.com/Teesha1610/github-analytics-dashboard">github.com/Teesha1610/github-analytics-dashboard</a></p>
+      </article>
 
-  // ── Auto-resize textarea ──
-  inputEl.addEventListener('input', () => {
-    inputEl.style.height = 'auto';
-    inputEl.style.height = Math.min(inputEl.scrollHeight, 140) + 'px';
-  });
+      <div class="more">
+        <h3>Also built</h3>
+        <p class="note">Earlier projects, mostly full-stack and NLP work.</p>
+        <dl>
+          <dt>AI Resume Analyzer</dt>
+          <dd>
+            Upload a resume and a job description to get a match score, keyword gap analysis, and improvement suggestions. Runs on free local models, no paid APIs.
+            <span class="stack">Python · Flask · Hugging Face · pdfplumber · NLP</span>
+            <p class="repo"><a href="https://github.com/Teesha1610/resume-analyzer-ai">github.com/Teesha1610/resume-analyzer-ai</a></p>
+          </dd>
 
-  // ── Enter to send ──
-  inputEl.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
+          <dt>Staycation Booking Platform</dt>
+          <dd>
+            A full-stack booking platform where users host properties, book stays, and leave reviews. Secure authentication, availability tracking, and interactive Leaflet.js maps.
+            <span class="stack">Node.js · Express · MongoDB · React · REST API</span>
+            <p class="repo"><a href="https://github.com/Teesha1610">github.com/Teesha1610</a></p>
+          </dd>
 
-  function sendSuggestion(el) {
-    inputEl.value = el.textContent;
-    sendMessage();
-  }
+          <dt>AI Chatbot Assistant</dt>
+          <dd>
+            A chatbot using GPT models through the OpenAI API, with NLTK and spaCy for intent recognition, served through a Flask web interface.
+            <span class="stack">Python · OpenAI API · Flask · NLTK · spaCy</span>
+            <p class="repo"><a href="https://github.com/Teesha1610">github.com/Teesha1610</a></p>
+          </dd>
 
-  function getTime() {
-    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  }
-
-  // ── Simple markdown renderer ──
-  function renderMarkdown(text) {
-    // Code blocks
-    text = text.replace(/```(\w+)?\n?([\s\S]*?)```/g, (_, lang, code) => {
-      const escaped = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      return `<pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code class="language-${lang || ''}">${escaped}</code></pre>`;
-    });
-    // Inline code
-    text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-    // Bold
-    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    // Italic
-    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    // Unordered lists
-    text = text.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>');
-    text = text.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-    // Numbered lists
-    text = text.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
-    // Line breaks to paragraphs
-    text = text.split('\n\n').map(p => p.trim() ? `<p>${p}</p>` : '').join('');
-    text = text.replace(/\n/g, '<br>');
-    return text;
-  }
-
-  function copyCode(btn) {
-    const code = btn.nextElementSibling.textContent;
-    navigator.clipboard.writeText(code);
-    btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Copy', 2000);
-  }
-
-  function appendMessage(role, content, isStreaming = false) {
-    const welcome = document.getElementById('welcome');
-    if (welcome) welcome.remove();
-
-    const div = document.createElement('div');
-    div.className = `message ${role}`;
-    div.innerHTML = `
-      <div class="avatar">${role === 'user' ? '👤' : '🤖'}</div>
-      <div>
-        <div class="bubble" id="bubble-${Date.now()}">${
-          isStreaming
-            ? '<div class="typing-indicator"><span></span><span></span><span></span></div>'
-            : (role === 'assistant' ? renderMarkdown(content) : content)
-        }</div>
-        <div class="timestamp">${getTime()}</div>
+          <dt>Library Management System</dt>
+          <dd>
+            A backend system for books, users, and borrowing records, with role-based access control, secure authentication, reservation tracking, and MongoDB persistence.
+            <span class="stack">JavaScript · MongoDB · REST API · HTML · CSS</span>
+            <p class="repo"><a href="https://github.com/Teesha1610">github.com/Teesha1610</a></p>
+          </dd>
+        </dl>
       </div>
-    `;
-    messagesDiv.appendChild(div);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    return div.querySelector('.bubble');
-  }
+    </div>
+  </section>
 
-  async function sendMessage() {
-    const message = inputEl.value.trim();
-    if (!message || isStreaming) return;
+  <section id="experience">
+    <div class="wrap grid">
+      <div class="side">Experience<br>&amp; education</div>
+      <div>
+        <div class="entry">
+          <h3>Student Ambassador — CUNY Queens College</h3>
+          <p class="when">2023 – 2025 · New York, NY</p>
+          <ul>
+            <li>Represented Queens College to prospective students and their families as an admissions ambassador: led campus tours and staffed open houses, commencement, and other on-campus events.</li>
+            <li>Tutored students one-on-one in data structures, algorithms, and data mining coursework, working through problems and explaining concepts to build their understanding.</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <h3>B.S. Computer Science — CUNY Queens College</h3>
+          <p class="when">Expected December 2026 · New York, NY</p>
+          <ul>
+            <li>Coursework: Data Structures &amp; Algorithms, Design &amp; Analysis of Algorithms, Software Engineering, Database Systems, Operating Systems Principles, Computer Architecture.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    inputEl.value = '';
-    inputEl.style.height = 'auto';
-    isStreaming = true;
-    sendBtn.disabled = true;
+  <section id="skills">
+    <div class="wrap">
+      <h2>What I work with</h2>
+      <div class="skills">
+        <div>
+          <h3>Languages</h3>
+          <p>Python, TypeScript, JavaScript, Java, C++, SQL, HTML &amp; CSS, PHP, Rust</p>
+        </div>
+        <div>
+          <h3>Frameworks &amp; libraries</h3>
+          <p>React, Angular, Node.js, Express, FastAPI, Flask, Spring, REST APIs, LangChain</p>
+        </div>
+        <div>
+          <h3>Backend &amp; systems</h3>
+          <p>REST API design, SQLite, MongoDB, PostgreSQL, MySQL, relational database design, ACID transactions, concurrency and multithreading, distributed system primitives, Linux</p>
+        </div>
+        <div>
+          <h3>AI &amp; data</h3>
+          <p>Large language models, retrieval-augmented generation, embeddings, vector similarity search, pgvector, Ollama and local LLMs, OpenAI API, Hugging Face Transformers, NLTK and spaCy, NLP pipelines, prompt-injection detection, PII redaction</p>
+        </div>
+        <div>
+          <h3>Testing &amp; code quality</h3>
+          <p>pytest, Hypothesis, property-based testing, unit and integration testing, mypy, ruff, debugging, performance profiling, code review</p>
+        </div>
+        <div>
+          <h3>Tools &amp; practices</h3>
+          <p>Git, GitHub Actions, CI/CD pipelines across multi-OS build matrices, Docker, Azure, Agile</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    appendMessage('user', message);
-    const aiBubble = appendMessage('assistant', '', true);
+  <section id="contact">
+    <div class="wrap grid">
+      <div class="side">Contact</div>
+      <div class="body">
+        <p>I'm looking for new grad software engineering and AI engineering roles starting after December 2026, in New York or remote.</p>
+        <ul class="contact-list">
+          <li><a href="mailto:teeshamehta1610@gmail.com">teeshamehta1610@gmail.com</a></li>
+          <li><a href="https://github.com/Teesha1610">github.com/Teesha1610</a></li>
+          <li><a href="https://linkedin.com/in/teesha-mehta-9257b6248">linkedin.com/in/teesha-mehta-9257b6248</a></li>
+          <li><a href="tel:+15858370659">+1 585-837-0659</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message, model: modelSelect.value })
-      });
+</main>
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let fullText = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const lines = decoder.decode(value).split('\n');
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          try {
-            const data = JSON.parse(line.slice(6));
-            if (data.error) {
-              aiBubble.innerHTML = `<div class="error-bubble">⚠️ ${data.error}</div>`;
-              break;
-            }
-            if (data.token) {
-              fullText += data.token;
-              aiBubble.innerHTML = renderMarkdown(fullText) + '<span style="opacity:0.5">▍</span>';
-              messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }
-            if (data.done) {
-              aiBubble.innerHTML = renderMarkdown(fullText);
-            }
-          } catch {}
-        }
-      }
-    } catch (e) {
-      aiBubble.innerHTML = `<div class="error-bubble">⚠️ Could not connect. Is Ollama running? Run: <code>ollama serve</code></div>`;
-    }
-
-    isStreaming = false;
-    sendBtn.disabled = false;
-    inputEl.focus();
-  }
-
-  async function clearChat() {
-    await fetch('/api/clear', { method: 'POST' });
-    messagesDiv.innerHTML = `
-      <div id="welcome" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:1rem;color:var(--text-muted);text-align:center;padding:2rem;">
-        <div class="icon" style="font-size:3rem">🤖</div>
-        <h2 style="color:var(--text);font-size:1.3rem">Your Local AI Assistant</h2>
-        <p style="font-size:0.88rem;max-width:400px;line-height:1.6">100% private. No internet after setup. Runs entirely on your laptop.</p>
-      </div>`;
-  }
-</script>
+<footer>
+  <div class="wrap">Teesha Mehta · New York, NY</div>
+</footer>
 </body>
 </html>
